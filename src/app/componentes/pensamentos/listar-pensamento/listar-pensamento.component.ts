@@ -1,7 +1,9 @@
+import { Pensamento } from './../pensamento';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { PensamentoComponent } from '../pensamento/pensamento.component';
 import { CommonModule } from '@angular/common';
+import { PensamentoService } from '../pensamento.service';
 
 @Component({
   selector: 'app-listar-pensamento',
@@ -12,22 +14,13 @@ import { CommonModule } from '@angular/common';
 })
 export class ListarPensamentoComponent {
 
-  listaPensamentos = [
-    {
-      conteudo: 'Passo informações para o componente filho',
-      autoria: 'Componente pai',
-      modelo: 'modelo1'
-    },
-    {
-      conteudo: 'Minha propriedade é decorada com @Input()',
-      autoria: 'Componente Filho',
-      modelo: 'modelo2'
-    },
-    {
-      conteudo: 'E eu sou só pra completar mais cards',
-      autoria: 'oTioBobDev³',
-      modelo: 'modelo3'
-    }
-  ];
+  listaPensamentos: Pensamento[] = [];
 
+  constructor(private service: PensamentoService) {}
+
+  ngOnInit(): void {
+   this.service.listar().subscribe((listaPensamentos) => {
+     this.listaPensamentos = listaPensamentos
+   })
+  }
 }
